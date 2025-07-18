@@ -4,6 +4,7 @@ const mongoose = require('mongoose');
 const app = express();
 const authRoutes = require('./src/routes/auth');
 const User = require('./src/models/user.model');
+const authenticate = require('./src/middleware/authmiddleware');
 
 // Enhanced MongoDB connection with error handling
 mongoose.connect(process.env.MONGODB_URI, {
@@ -19,9 +20,12 @@ mongoose.connect(process.env.MONGODB_URI, {
 
 // Middleware
 app.use(express.json());
-
+app.use('/api/protected', authenticate);  // Protect routes with authentication middleware
 // Routes
 app.use('/api/auth', authRoutes);
+
+app.get('/api/protected', (req, res) => {
+    res.json({ message: 'This is a protected route', user: req.user }); 
 
 app.post('/api/login', async (req, res) => {
     try{
@@ -39,7 +43,7 @@ app.post('/api/login', async (req, res) => {
         const token = jwt.sign({
             userId: user._id,
             username: user.username
-        }, process.env.SECRET_KEY, { expiresIn: '1h' });
+        }, process.env.JWT_SECRET, { expiresIn: '1h' });
 
         res.cookie('token', token, {
             httpOnly: true,
