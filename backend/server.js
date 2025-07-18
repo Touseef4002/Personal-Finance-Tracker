@@ -3,6 +3,7 @@ const express = require('express');
 const mongoose = require('mongoose');
 const app = express();
 const authRoutes = require('./src/routes/auth');
+const User = require('./src/models/user.model');
 
 // Enhanced MongoDB connection with error handling
 mongoose.connect(process.env.MONGODB_URI, {
@@ -22,10 +23,41 @@ app.use(express.json());
 // Routes
 app.use('/api/auth', authRoutes);
 
-// Health check endpoint
-app.get('/health', (req, res) => {
-  res.status(200).json({ status: 'OK', dbState: mongoose.connection.readyState });
-});
+app.post('/api/login', async (req, res) => {
+    try{
+        const user = await User.findOne({username : req.body.username})
+
+        if(!user){
+            return res.status(401).json({message : "Invalid username or password"});
+        }
+
+        const isValidPassword = await bcrypt.compare(req.body.password, user.password);
+        if(!isValidPassword){
+            return res.status(401).json({message : "Invalid username or password"});
+        }
+
+        const token = jwt.sign({
+            userId: user._id,
+            username: user.username
+        }, process.env.SECRET_KEY, { expiresIn: '1h' });
+
+        res.cookie('token', token, {
+            httpOnly: true,
+            maxAge: 3600000, // 1 hour
+        });
+        
+        res.json({
+            message: 'Login successful  ✅',
+            user: { id : user._id, username: user.username},
+            token
+        });
+    }
+
+    catch (error) {
+        console.error('Error during login:', error);
+        res.status(500).json({ message: 'Login failed' });
+    }
+})
 
 // Error handling middleware
 app.use((err, req, res, next) => {
@@ -33,8 +65,7 @@ app.use((err, req, res, next) => {
   res.status(500).json({ error: 'Something went wrong!' });
 });
 
-// Start server only after DB connection is ready
-const PORT = process.env.PORT || 3000;
+const PORT = 3000;
 app.listen(PORT, () => {
   console.log(`Server is running on port ${PORT}`);
 });
