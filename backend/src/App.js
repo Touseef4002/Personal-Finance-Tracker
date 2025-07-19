@@ -1,5 +1,6 @@
 import {useAuth} from './contexts/AuthContext';
 import { use, useEffect } from 'react';
+import AuthForm from './components/AuthForm';
 
 function App() {
     const { token, setToken } = useAuth();
@@ -33,8 +34,8 @@ function App() {
     , [token, setToken]);
 
     return (
-        <div>
-
-        </div>
+    <div className="App">
+      <AuthForm />
+    </div>
     )
 }
