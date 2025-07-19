@@ -26,6 +26,7 @@ app.use('/api/auth', authRoutes);
 
 app.get('/api/protected', (req, res) => {
     res.json({ message: 'This is a protected route', user: req.user }); 
+});
 
 app.post('/api/login', async (req, res) => {
     try{
