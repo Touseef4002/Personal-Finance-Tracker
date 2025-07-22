@@ -1,4 +1,4 @@
-# Expense Tracker (MERN Stack)
+# Personal Finance Tracker (MERN Stack)
 
 A full-stack expense tracking application with authentication, data visualization, and Excel export capabilities.
 
