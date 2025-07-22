@@ -1,7 +1,8 @@
 import React, { useState } from 'react'
 import AuthLayout from '../../components/layouts/AuthLayout'
-import { useNavigate } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
 import Input from '../../components/inputs/Input';
+import { validateEmail } from '../../utils/helper';
 
 const Login = () => {
     const [email, setEmail] = useState('');
@@ -12,7 +13,16 @@ const Login = () => {
 
     // Handle login form submission
     const handleLogin = async (e) => {
+        e.preventDefault();
 
+        if (!validateEmail(email) || !password) {
+            setError('Please check your email and password');
+            return;
+        }
+
+        setError("");
+
+        //Login API call
     }
 
     return (
@@ -31,6 +41,24 @@ const Login = () => {
                         label='Email Address'
                         placeholder='john@example.com'
                     />
+                    <Input
+                        value={password}
+                        onChange={(e) => setPassword(e.target.value)}
+                        type='password'
+                        label='Password'
+                        placeholder='Minimum 8 characters'
+                    />
+
+                    {error && <p className='text-red-500 tex-xs pb-2.5'>{error}</p>}
+
+                    <button type='submit' className='btn-purple-500'>
+                        LOGIN
+                    </button>
+
+                    <p className='text-[13px] text-slate-800 mt-3'>
+                        Dont have an account? {" "}
+                        <Link className='font-medium text-purple-500 underline' to='/signup'>Sign Up</Link>
+                    </p>
                 </form>
             </div>
         </AuthLayout>
