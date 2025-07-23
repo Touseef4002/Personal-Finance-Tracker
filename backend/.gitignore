@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 # --- Environment Files ---
 .env                # Local environment variables
 .env.local          # Local overrides
@@ -34,3 +35,6 @@ Thumbs.db          # Windows thumbnail cache
 *.pem              # Certificates
 *.crt              # SSL certificates
 *.cer              # More certificates
+=======
+".env" 
+>>>>>>> 492dea2974f7ba14279a86a2da3d07ee927490e9
