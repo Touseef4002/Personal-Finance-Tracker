@@ -1,1 +1,36 @@
-".env" 
+# --- Environment Files ---
+.env                # Local environment variables
+.env.local          # Local overrides
+.env.*              # All .env files (e.g., .env.dev, .env.prod)
+.env.example        # (Keep this, but never commit real .env)
+secrets.*           # Secret config files
+
+# --- Dependency Directories ---
+node_modules/       # Node.js dependencies
+vendor/            # Composer (PHP) dependencies
+__pycache__/       # Python cache
+*.py[cod]          # Python compiled files
+
+# --- Build Artifacts ---
+dist/              # Built files (e.g., Webpack, Vite)
+build/             # Compiled code (e.g., React, TypeScript)
+*.log              # Log files
+
+# --- OS & Editor Files ---
+.DS_Store          # macOS metadata
+.idea/             # JetBrains IDE (IntelliJ, WebStorm)
+.vscode/           # VS Code settings (except .vscode/extensions.json)
+*.swp              # Vim swap files
+Thumbs.db          # Windows thumbnail cache
+
+# --- Database & Debug Files ---
+*.sqlite           # SQLite databases
+*.dump             # Database dumps
+*.pid              # Process IDs
+*.seed             # Test data seeds
+
+# --- Certificates & Keys ---
+*.key              # Private keys
+*.pem              # Certificates
+*.crt              # SSL certificates
+*.cer              # More certificates
