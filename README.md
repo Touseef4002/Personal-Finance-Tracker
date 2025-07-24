@@ -5,7 +5,7 @@ A full-stack expense tracking application with authentication, data visualizatio
 ## Features
 
 ✨ **User Authentication**  
-- Secure JWT-based login/signup
+- Secure JWT-based login/signup and bcryptjs hashing
 - Protected routes
 
 📊 **Financial Tracking**  
