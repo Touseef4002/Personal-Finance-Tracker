@@ -32,6 +32,8 @@ exports.registerUser = async (req, res) => {
             profileImageUrl
         });
 
+        await user.save();
+
         res.status(201).json({
             message: "User registered successfully",
             user: {
