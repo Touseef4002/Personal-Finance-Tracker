@@ -25,14 +25,13 @@ exports.registerUser = async (req, res) => {
         }
 
         // Create new user
-        const user = new User({
+        const user = await User.create({
             name,
             email,
             password,
             profileImageUrl
         });
 
-        await user.save();
 
         res.status(201).json({
             message: "User registered successfully",
@@ -53,7 +52,18 @@ exports.registerUser = async (req, res) => {
 
 //Login a user
 exports.loginUser = async (req, res) => {
+    const {email, password} = req.body;
 
+    if(!email || !password) {
+        return res.status(400).json({ message: "Please fill all fields" });
+    }
+
+    try{
+        const user = await User.findOne({ email });
+        if (!user || !(await user.comparePassword(password))) {
+            return res.status(401).json({ message: "Invalid email or password" });
+        }
+    }
 }
 
 // Get user information
