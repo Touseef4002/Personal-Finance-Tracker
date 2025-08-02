@@ -44,7 +44,31 @@ exports.getAllIncome = async (req, res) => {
 }
 
 //Delete Income Source
-exports.deleteIncome = async (req, res) => {}
+exports.deleteIncome = async (req, res) => {
+    const userId = req.user.id;
+
+    try{
+        await Income.findByIdAndDelete(req.params.id);
+        res.status(200).json({ message: "Income source deleted successfully" });
+    }
+    catch (error) {
+        console.error("Error deleting income:", error);
+        return res.status(500).json({ message: "Internal server error" });
+    }
+}
 
 //Download Income as Excel
-exports.downloadIncomeExcel = async (req, res) => {}
+exports.downloadIncomeExcel = async (req, res) => {
+    const userId = req.user.id;
+
+    try{
+        const income = await Income.find({ userId }).sort({ date: -1 });
+
+        //Prepare data for Excel 
+        const data = income.map(item => ({
+            Source: item.source,
+            Amount: item.amount,
+            Date: item.date
+        }));
+    }
+}
