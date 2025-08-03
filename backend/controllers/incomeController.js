@@ -1,5 +1,6 @@
-const User = require("../models/userModel");
+const XLSX = require("xlsx");
 const Income = require("../models/Income");
+
 
 //Add Income Source
 exports.addIncome = async (req, res) => {
@@ -70,5 +71,15 @@ exports.downloadIncomeExcel = async (req, res) => {
             Amount: item.amount,
             Date: item.date
         }));
+
+        const wb = XLSX.utils.book_new();
+        const ws = XLSX.utils.json_to_sheet(data);
+        XLSX.utils.book_append_sheet(wb, ws, "Incomes");
+        XLSX.writeFile(wb, "Incomes.xlsx");
+        res.download("Incomes.xlsx");
+    }
+    catch (error) {
+        console.error("Error downloading income as Excel:", error);
+        return res.status(500).json({ message: "Internal server error" });
     }
 }
