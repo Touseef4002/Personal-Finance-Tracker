@@ -31,12 +31,12 @@ exports.addExpense = async (req, res) => {
 }
 
 //Get All Expenses
-exports.getAllExpense = async (req, res) => {
+exports.getAllExpenses = async (req, res) => {
     const userId = req.user.id;
 
     try{
-        const Expense = await Expense.find({ userId }).sort({ date: -1 });
-        res.status(200).json(Expense);
+        const expense = await Expense.find({ userId }).sort({ date: -1 });
+        res.status(200).json(expense);
     }
     catch (error) {
         console.error("Error fetching Expenses:", error);
@@ -63,10 +63,10 @@ exports.downloadExpenseExcel = async (req, res) => {
     const userId = req.user.id;
 
     try{
-        const Expense = await Expense.find({ userId }).sort({ date: -1 });
+        const expense = await Expense.find({ userId }).sort({ date: -1 });
 
         //Prepare data for Excel 
-        const data = Expense.map(item => ({
+        const data = expense.map(item => ({
             Category: item.category,
             Amount: item.amount,
             Date: item.date

@@ -4,6 +4,9 @@ const Expense = require("../models/Expense");
 const {isValidObjectId, Types} = require("mongoose");
 
 //Dashboard Data
-const getDashboardData = async (req, res) => {
+exports.getDashboardData = async (req, res) => {
     const userId = req.user.id;
+    const userObjectId = new Types.ObjectId(String(userId));
+    
 }
+

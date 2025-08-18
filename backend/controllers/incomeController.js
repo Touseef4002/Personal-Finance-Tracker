@@ -31,7 +31,7 @@ exports.addIncome = async (req, res) => {
 }
 
 //Get All Incomes
-exports.getAllIncome = async (req, res) => {
+exports.getAllIncomes = async (req, res) => {
     const userId = req.user.id;
 
     try{
