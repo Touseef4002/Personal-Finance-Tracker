@@ -37,7 +37,12 @@ const Login = () => {
 
             if (token) {
                 localStorage.setItem('token', token);
-                updateUser(user);
+                updateUser({
+                    id: user._id,           // Backend uses _id, frontend expects id
+                    name: user.name,        // This should be correct
+                    email: user.email,      // Add email if needed
+                    profileImageUrl: user.profileImageUrl  // ← This was missing!
+                });
                 navigate('/dashboard');
             }
         }
