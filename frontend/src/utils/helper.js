@@ -15,6 +15,23 @@ export const getInitials = (name) => {
             initials += words[i][0];
         }
     }
-
     return initials.toUpperCase() || "?"; // Fallback if no initials found
+}
+
+export const addThousandsSeparator = (num) => {  
+    if(num == null || isNaN(num)) return " ";
+
+    const [integerPart, decimalPart] = num.toString().split('.');
+    const formattedInteger = integerPart.replace(/\B(?=(\d{3})+(?!\d))/g, ',');
+
+    return decimalPart ? `${formattedInteger}.${decimalPart}` : formattedInteger;
+}
+
+export const prepareExpenseBarChartData = (data = []) => {
+    const chartData = data.map(item => ({
+        category: item?.category,
+        amount: item?.amount,
+    }));
+
+    return chartData;
 }
