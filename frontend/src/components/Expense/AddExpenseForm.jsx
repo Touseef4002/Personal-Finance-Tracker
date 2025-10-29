@@ -8,12 +8,13 @@ const AddExpenseForm = ({ onAddExpense }) => {
         category: '',
         amount: '',
         date: '',
-        icon: ''
+        icon: 'https://cdn.jsdelivr.net/npm/emoji-datasource-apple/img/apple/64/1f4b0.png'
     });
 
     const handleChange = (key, value) => setExpense({ ...expense, [key]: value });
 
     const handleSubmit = () => {
+
         const sanitizedExpense = {
             category: (expense.category || '').trim(),
             amount: (expense.amount || '').trim(),

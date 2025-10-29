@@ -9,7 +9,7 @@ const AddIncomeForm = ({ onAddIncome }) => {
         source: '',
         amount: '',
         date: '',
-        icon: ''
+        icon: 'https://cdn.jsdelivr.net/npm/emoji-datasource-apple/img/apple/64/1f4b0.png'
     });
 
     const handleChange = (key, value) => setIncome({ ...income, [key]: value });
