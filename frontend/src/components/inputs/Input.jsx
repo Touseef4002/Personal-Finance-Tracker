@@ -7,6 +7,10 @@ const Input = ({ value, onChange, placeholder, label, type }) => {
         setShowPassword(!showPassword);
     };
 
+    const handleChange = (e) => {
+        onChange(e);
+    };
+
 
     return (
         <div>
@@ -15,7 +19,7 @@ const Input = ({ value, onChange, placeholder, label, type }) => {
                 <input
                     type={type === 'password' ? showPassword ? 'text' : 'password' : type}
                     value={value}
-                    onChange={(e) => onChange(e)}
+                    onChange={handleChange}
                     placeholder={placeholder}
                     className='w-full bg-transparent outline-none'
                 />

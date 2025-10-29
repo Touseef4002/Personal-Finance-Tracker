@@ -53,7 +53,7 @@ const Signup = () => {
 
 
         try {
-            const response = await axiosInstance.post(API_PATHS.AUTH.SIGNUP, {
+            const response = await axiosInstance.post(API_PATHS.AUTH.REGISTER, {
                 name,
                 email,
                 password,
