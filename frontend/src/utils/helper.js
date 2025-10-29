@@ -30,12 +30,23 @@ export const addThousandsSeparator = (num) => {
 }
 
 export const prepareExpenseBarChartData = (data = []) => {
-    const chartData = data.map(item => ({
-        category: item?.category,
-        amount: item?.amount,
-    }));
+    if (!data || !Array.isArray(data)) {
+        // console.warn('prepareExpenseBarChartData: Expected array, got:', data);
+        return [];
+    } 
 
-    return chartData;
+    try{
+        const chartData = data.map(item => ({
+            category: item?.category || 'Others',
+            amount: item?.amount || 0,
+        }));
+
+        return chartData;
+    }
+    catch (error) {
+        console.error('Error in prepareExpenseBarChartData:', error);
+        return [];
+    }
 }
 
 export const prepareIncomeBarChartData = (data = []) => {
