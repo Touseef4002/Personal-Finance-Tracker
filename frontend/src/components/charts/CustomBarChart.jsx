@@ -9,7 +9,6 @@ const CustomBarChart = ({ data, XAxiskey = 'category' }) => {
     }
 
     const formatXAxisTick = (value) => {
-        // Extract just the date part before the underscore
         return value.split('_')[0];
     }
 
@@ -20,10 +19,7 @@ const CustomBarChart = ({ data, XAxiskey = 'category' }) => {
             return (
                 <div className='bg-white shadow-md rounded-lg p-2 border border-gray-300'>
                     <p className='text-xs font-semibold text-purple-800 mb-1'>
-                        {data.fullDate}
-                    </p>
-                    <p className='text-sm text-gray-600'>
-                        Source: <span className='text-sm font-medium text-gray-900'>{data.source}</span>
+                        {data.source}
                     </p>
                     <p className='text-sm text-gray-600'>
                         Amount: <span className='text-sm font-medium text-gray-900'>${data.amount}</span>

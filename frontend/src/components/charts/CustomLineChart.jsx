@@ -1,8 +1,8 @@
 import React from 'react'
 import { XAxis, YAxis, Tooltip, ResponsiveContainer, CartesianGrid, Area, AreaChart } from 'recharts'
-const CustomLineChart = ({ data }) => {
+const CustomLineChart = ({ data, dataKey = 'month' }) => {
 
-    const CustomTooltip = ({ active, payload }) => {
+    const CustomTooltip = ({ active, payload, dataKey }) => {
         if (active && payload && payload.length) {
             return (
                 <div className='bg-white shadow-md rounded-lg p-2 border border-gray-300'>
@@ -14,6 +14,10 @@ const CustomLineChart = ({ data }) => {
             )
         }
         return null;
+    }
+
+    const formatXAxisTick = (value) => {
+        return value.split('_')[0];
     }
 
     return (
@@ -28,7 +32,7 @@ const CustomLineChart = ({ data }) => {
                     </defs>
 
                     <CartesianGrid stroke='none' />
-                    <XAxis dataKey='month' tick={{ fontSize: 12, fill: '#555' }} stroke='none' />
+                    <XAxis dataKey={dataKey} tick={{ fontSize: 12, fill: '#555' }} stroke='none' tickFormatter={formatXAxisTick} />
                     <YAxis stroke='none' tick={{ fontSize: 12, fill: '#555' }} />
                     <Tooltip content={<CustomTooltip />} />
 
