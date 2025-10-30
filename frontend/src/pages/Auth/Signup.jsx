@@ -86,21 +86,23 @@ const Signup = () => {
 
                     <ProfilePhotoSelector image={profilePic} setImage={setProfilePic} />
 
-                    <div className='grid grid-cols-1 md:grid-cols-2 gap-4'>
-                        <Input
-                            value={name}
-                            onChange={(e) => setName(e.target.value)}
-                            type='text'
-                            label='Full Name'
-                            placeholder='John Doe'
-                        />
-                        <Input
-                            value={email}
-                            onChange={(e) => setEmail(e.target.value)}
-                            type='email'
-                            label='Email Address'
-                            placeholder='john@example.com'
-                        />
+                    <div className='grid grid-cols-1 gap-4'>
+                        <div className='grid grid-cols-1 md:grid-cols-2 gap-4'>
+                            <Input
+                                value={name}
+                                onChange={(e) => setName(e.target.value)}
+                                type='text'
+                                label='Full Name'
+                                placeholder='John Doe'
+                            />
+                            <Input
+                                value={email}
+                                onChange={(e) => setEmail(e.target.value)}
+                                type='email'
+                                label='Email Address'
+                                placeholder='john@example.com'
+                            />
+                        </div>
                         <div className='col-span-2'>
                             <Input
                                 value={password}

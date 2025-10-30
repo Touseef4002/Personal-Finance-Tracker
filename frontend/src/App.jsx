@@ -12,7 +12,7 @@ const App = () => {
   return (
     <UserProvider>
       <div>
-        <Router basename={process.env.PUBLIC_URL}>
+        <Router >
           <Routes>
             <Route path='/' element={<Root />} />
             <Route path='/login' exact element={<Login />} />
