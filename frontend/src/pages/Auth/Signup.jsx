@@ -44,11 +44,9 @@ const Signup = () => {
         setError("");
 
         //Signup API call
-        // If a profile picture is selected, upload it and get the URL
         if (profilePic) {
             const imgUploadResponse = await uploadImage(profilePic);
-            console.log('Image upload response:', imgUploadResponse);
-            profilePicURL = imgUploadResponse.data.imageUrl || ""; // Assuming the response contains the image URL
+            profilePicURL = imgUploadResponse.data.imageUrl || "";
         }
 
 
