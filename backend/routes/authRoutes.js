@@ -1,69 +1,70 @@
 const express = require('express');
 const { protect } = require('../middleware/authMiddleware');
 const upload = require('../middleware/uploadMiddleware');
+const cloudinary = require('cloudinary').v2;
+const { v4: uuidv4 } = require('uuid');
 
 const {
     registerUser,
     loginUser,
     getUserInfo,
-
 } = require("../controllers/authController");
 
 const router = express.Router();
 
+// Configure Cloudinary
+cloudinary.config({
+    cloud_name: process.env.CLOUDINARY_CLOUD_NAME,
+    api_key: process.env.CLOUDINARY_API_KEY,
+    api_secret: process.env.CLOUDINARY_API_SECRET,
+    secure: true // Use HTTPS
+});
+
+// Auth routes
 router.post("/register", registerUser);
 router.post("/login", loginUser);
 router.get("/getUser", protect, getUserInfo);
 
-router.post("/upload-image", upload.single('image'), (req, res) => {
-    if(!req.file) {
-        return res.status(400).json({ message: "No file uploaded" });
-    }
-
-    const imageUrl = `${req.protocol}://${req.get('host')}/uploads/${req.file.filename}`;
-    res.status(200).json({ message: "Image uploaded successfully", imageUrl });
-});
-
-// routes/authRoutes.js
-const cloudinary = require('cloudinary').v2;
-
-// Configure Cloudinary
-cloudinary.config({
-  cloud_name: process.env.CLOUDINARY_CLOUD_NAME,
-  api_key: process.env.CLOUDINARY_API_KEY,
-  api_secret: process.env.CLOUDINARY_API_SECRET,
-});
-
+// Image upload endpoint
 router.post("/upload-image", upload.single('image'), async (req, res) => {
-    console.log('=== UPLOAD DEBUG START ===');
-    
-    if(!req.file) {
-        console.log('❌ No file received from multer');
-        return res.status(400).json({ message: "No file uploaded" });
+    if (!req.file) {
+        return res.status(400).json({ 
+            success: false,
+            message: 'No file uploaded' 
+        });
     }
-
-    console.log('✅ File received by multer:', req.file.originalname);
 
     try {
+        // Create a unique filename with original extension
+        const fileExtension = req.file.originalname.split('.').pop();
+        const publicId = `profile-${uuidv4()}.${fileExtension}`;
+
+        // Convert buffer to base64
+        const fileBase64 = req.file.buffer.toString('base64');
+        const fileUri = `data:${req.file.mimetype};base64,${fileBase64}`;
+
         // Upload to Cloudinary
-        console.log('Uploading to Cloudinary...');
-        const result = await cloudinary.uploader.upload(req.file.path, {
+        const result = await cloudinary.uploader.upload(fileUri, {
+            public_id: publicId,
             folder: 'personal-finance-profiles',
-            resource_type: 'image'
+            resource_type: 'auto',
+            quality: 'auto:good',
+            fetch_format: 'auto'
         });
 
-        console.log('✅ Cloudinary upload successful:', result.secure_url);
-
-        res.status(200).json({ 
-            message: "Image uploaded successfully", 
-            imageUrl: result.secure_url 
+        res.status(200).json({
+            success: true,
+            message: 'Image uploaded successfully',
+            imageUrl: result.secure_url,
+            publicId: result.public_id
         });
 
     } catch (error) {
-        console.error('❌ Cloudinary upload failed:', error);
-        res.status(500).json({ 
-            message: "Image upload failed",
-            error: error.message 
+        console.error('Cloudinary upload error:', error);
+        res.status(500).json({
+            success: false,
+            message: 'Failed to upload image',
+            error: error.message
         });
     }
 });
