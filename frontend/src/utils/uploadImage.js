@@ -6,6 +6,8 @@ const uploadImage = async (imageFile) => {
 
     //Append the image file to the FormData object
     formData.append('image', imageFile);
+
+    console.log('Uploading image:', imageFile.name, imageFile.size);
     try{
         const response = await axiosInstance.post(API_PATHS.IMAGE.UPLOAD_IMAGE, formData, {
             headers: {
