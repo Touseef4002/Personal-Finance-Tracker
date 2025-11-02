@@ -6,12 +6,12 @@ export const validateEmail = (email) => {
 }
 
 export const getInitials = (name) => {
-    if(!name) return "?";
+    if (!name) return "?";
 
     const words = name.trim().split(/\s+/); // Use regex to handle multiple spaces
     let initials = "";
 
-    for(let i = 0; i < Math.min(words.length, 2); i++) {
+    for (let i = 0; i < Math.min(words.length, 2); i++) {
         // Add safety check for empty words
         if (words[i] && words[i].length > 0) {
             initials += words[i][0];
@@ -20,22 +20,34 @@ export const getInitials = (name) => {
     return initials.toUpperCase() || "?"; // Fallback if no initials found
 }
 
-export const addThousandsSeparator = (num) => {  
-    if(num == null || isNaN(num)) return " ";
+export const addThousandsSeparator = (num) => {
+    if (num == null || isNaN(num)) return " ";
 
     const [integerPart, decimalPart] = num.toString().split('.');
-    const formattedInteger = integerPart.replace(/\B(?=(\d{3})+(?!\d))/g, ',');
+
+    // Handle last 3 digits, then groups of 2
+    const lastThree = integerPart.slice(-3);
+    const otherNumbers = integerPart.slice(0, -3);
+
+    let formattedInteger = "";
+    if (otherNumbers) {
+        formattedInteger =
+            otherNumbers.replace(/\B(?=(\d{2})+(?!\d))/g, ",") + "," + lastThree;
+    } else {
+        formattedInteger = lastThree;
+    }
 
     return decimalPart ? `${formattedInteger}.${decimalPart}` : formattedInteger;
-}
+};
+
 
 export const prepareExpenseBarChartData = (data = []) => {
     if (!data || !Array.isArray(data)) {
         // console.warn('prepareExpenseBarChartData: Expected array, got:', data);
         return [];
-    } 
+    }
 
-    try{
+    try {
         const chartData = data.map(item => ({
             category: item?.category || 'Others',
             amount: item?.amount || 0,

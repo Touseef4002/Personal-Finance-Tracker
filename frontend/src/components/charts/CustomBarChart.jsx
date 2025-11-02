@@ -22,7 +22,7 @@ const CustomBarChart = ({ data, XAxiskey = 'category' }) => {
                         {data.source}
                     </p>
                     <p className='text-sm text-gray-600'>
-                        Amount: <span className='text-sm font-medium text-gray-900'>${data.amount}</span>
+                        Amount: <span className='text-sm font-medium text-gray-900'>₹{data.amount}</span>
                     </p>
                 </div>
             )
