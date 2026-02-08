@@ -10,6 +10,10 @@ const dashboardRoutes = require("./routes/dashboardRoutes");
 
 const app = express();
 
+app.get("/health", (req, res) => {
+  res.status(200).json({ status: "ok" });
+});
+
 app.use(cors({
     origin: process.env.CORS_ORIGIN || "*",
     methods: "GET,PUT,POST,DELETE",
