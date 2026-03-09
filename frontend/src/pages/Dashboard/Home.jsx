@@ -99,7 +99,7 @@ const Home = () => {
 
                     <RecentIncomeWithChart
                         data={dashboardData?.last60DaysIncome?.transactions?.slice(0, 4) || []}
-                        totalIncome={dashboardData?.last60DaysIncome?.total || 0}
+                        totalIncome={dashboardData?.last60DaysIncome?.transactions?.slice(0, 4)?.reduce((acc, transaction) => acc + transaction.amount, 0) || 0}
                     />
 
                     <RecentIncome
